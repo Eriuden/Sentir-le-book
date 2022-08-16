@@ -8,4 +8,7 @@ router.post("/", upload.single("file"), booksController.createBook);
 router.put("/:id", booksController.updateBook);
 router.delete("/:id", booksController.deleteBook);
 
+router.patch("/like-book/:id", booksController.likeBook);
+router.patch("/unlike-book/:id", booksController.unlikeBook);
+
 module.exports = router;

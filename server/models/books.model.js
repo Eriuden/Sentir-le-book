@@ -31,7 +31,18 @@ const BookSchema = new mongoose.Schema({
   bookLikedBy: {
     type: [String],
     required: true
-  }
+  },
+  comments: {
+    type: [
+        {
+            commenterId: String,
+            commenterName: String,
+            text: String,
+            timestamp: Number,
+        }
+    ],
+    required: true,
+}
 });
 
 const BooksModel = mongoose.model("Books", BookSchema);
