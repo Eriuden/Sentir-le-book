@@ -168,3 +168,102 @@ module.exports.unlikeBook = async (req, res) => {
     return res.status(400).send(err);
   }
 };
+
+module.exports.commentBook = (req, res) => {
+  if (!ObjectID.isValid(req.params.id))
+    return res.status(400).send("ID unknown : " + req.params.id);
+
+  //Diff fonctions findbyid et findbyidupdate, bah c'est simple, c'est findOneAndUpdate, mais qui find par l'id la deuxième
+  //comme d'hab, findby et comme c'est avec l'id, on la requiert après
+  //on veut insérer dans l'objet, ici le livre, un commentaire, comme défini dans le modèle
+  //mais comme l'élément comment est un array, il faut push, pour insérer une valeur dans un tableau
+  //du coup, on reproduit l'architecture de ce dernier dans le model, en précisant ce que l'on veut écrire
+  //bah du coup, il récupère ce qu'il il y a dans le body du commentaire, pour chaque élément
+  //C'est pourquoi Postman va pas être d'accord si on met pas "clé":"valeur", à chaque fois, il veut tout !
+  try {
+    return BooksModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        $push: {
+          comments: {
+            commenterId: req.body.commenterId,
+            commenterName: req.body.commenterName,
+            text: req.body.text,
+            timestamp: new Date().getTime(),
+          },
+        },
+      },
+      { new: true },
+      (err, docs) => {
+        if (!err) return res.send(docs);
+        else return res.status(400).send(err);
+      }
+    );
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+};
+
+module.exports.editCommentBook = (req, res) => {
+  if (!ObjectID.isValid(req.params.id))
+    return res.status(400).send("ID unknown : " + req.params.id);
+
+  //comme d'hab, on cherche en requierant l'id (on update pas ici)
+  //on fabrique une const comment pour pointer dans l'objet post le comment
+  //on précise que l'id du comment doit être égale à celle du commentaire dans l'objet
+
+  try {
+    return BooksModel.findById(req.params.id, (err, docs) => {
+      const theComment = docs.comments.find((comment) =>
+        comment._id.equals(req.body.commentId)
+      );
+
+      //si l'id commentaire est introuvable
+
+      if (!theComment) return res.status(404).send("commentaire introuvable");
+
+      //sinon on modifie le texte selon les nouvelles entrées
+      theComment.text = req.body.text;
+
+      return docs.save((err) => {
+        if (!err) return res.status(200).send(docs);
+        return res.status(500).send(err);
+      });
+    });
+  } catch {
+    return res.status(400).send(err);
+  }
+};
+
+module.exports.deleteCommentBook = (req, res) => {
+  if (!ObjectID.isValid(req.params.id))
+    return res.status(400).send("ID unknown : " + req.params.id);
+
+  try {
+    //on appelle une fonction qui cherche par id
+    //on requiert donc forcément l'id
+    //on emploi la fonction $pull, qui retire un élément d'un tableau
+    //on lui précise l'objet JSON comment
+    //on lui indique la clé et la valeur de l'objet à supprimer
+    return BooksModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        $pull: {
+          comments: {
+            _id: req.body.commentId,
+          },
+        },
+      },
+      //new est une option de requète qui renvoie l'objet après requète
+      //si pas d'erreur, on renvoie l'objet
+      //sinon on dit ce qui ne va pas
+      { new: true },
+      (err, docs) => {
+        if (!err) return res.send(docs);
+        else return res.status(400).send(err);
+      }
+    );
+  } catch (err) {
+    res.status(400).send(err);
+  }
+};
