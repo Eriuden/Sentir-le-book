@@ -11,9 +11,6 @@ const bcrypt = require("bcrypt");
 
 const usersSchema = new mongoose.Schema(
   {
-    picture: {
-        type:String,
-    },
     role: {
       type:String,
       required: true,
@@ -83,5 +80,5 @@ usersSchema.static.login = async function (name, password) {
   throw Error("adresse mail incorrect");
 };
 
-const UsersModel = mongoose.model("Users", usersSchema);
+const UsersModel = mongoose.model("user", usersSchema);
 module.exports = UsersModel
