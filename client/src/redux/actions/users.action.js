@@ -7,7 +7,7 @@ export const DELETE_USER= "DELETE_USER"
 
 export const GET_USER_ERRORS= "GET_USER_ERRORS"
 
-export const getUsers = () => {
+export const getAllUsers = () => {
     return (dispatch) => {
         return axios
         .get(`${process.env.REACT_APP_API_URL}api/users`)
@@ -39,7 +39,7 @@ export const updateUser = (userId, name, password) => {
             //cette fois, pas besoin de get en fin, on modifie, comme dirait Laviosier...
             method: "put",
             url: `${process.env.REACT_APP_API_URL}api/users/` + userId,
-            data: { bio }
+            data: { name }
         })
             .then((res) => {
                 dispatch({type: UPDATE_USER , payload:name, password})
@@ -53,7 +53,7 @@ export const deleteUser = (userId, name, email, password) => {
       return axios({
         method: "delete",
         url: `${process.env.REACT_APP_API_URL}api/users/${userId}`,
-        data: { name, email, password, bio },
+        data: { name, email, password},
       })
         .then((res) => {
           dispatch({ type: DELETE_USER, payload: { userId } });

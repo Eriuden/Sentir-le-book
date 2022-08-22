@@ -23,10 +23,10 @@ function App() {
       <Header/>
 
       <Routes>
-        <Route exact Path="/" element ={<Home/>}>Acceuil</Route>
-        <Route exact Path="/" element ={<ConnexionForm/>}>Connexion</Route>
-        <Route exact Path="/" element ={<InscriptionForm/>}>Inscription</Route>
-        <Route exact Path="/" element ={<UserList/>}>Votre sélection</Route>
+        <Route  path="/" element ={<Home/>}/>
+        <Route  path="/connexion" element ={<ConnexionForm/>}/>
+        <Route  path="/inscription" element ={<InscriptionForm/>}/>
+        <Route  path="/userlist/:id" element ={<UserList/>}/>
       </Routes>
       
       <Footer/>

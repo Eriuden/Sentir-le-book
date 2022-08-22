@@ -8,8 +8,8 @@ import thunk from 'redux-thunk';
 import reducers from './redux/reducers/indexReducer';
 import { applyMiddleware } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
-import { composeWithDevTools } from '@reduxjs/toolkit/dist/devtoolsExtension';
-import { getAllUsers } from '../../Server/controllers/users.controller';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { getAllUsers } from './redux/actions/users.action'
 import { getAllBooks } from './redux/actions/books.action';
 
 const composedEnhancer = composeWithDevTools(applyMiddleware(thunk))
