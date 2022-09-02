@@ -95,7 +95,7 @@ export const updateBook = (
   };
 };
 
-export const deleteTravel = (
+export const deleteBook = (
   bookId,
   name,
   author,
