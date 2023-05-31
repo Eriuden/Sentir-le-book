@@ -1,11 +1,11 @@
 import React, {useEffect,useState} from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getAllBooks } from '../redux/actions/books.action'
 import BookCard from './BookCard'
 
 export default function BookForm() {
 
-    const [BooksData, setBooksData] = useState([])
+    const booksData= useSelector((state)=> state.booksReducer)
     const [search, setSearch] = useState("")
     
     const dispatch=useDispatch()
@@ -24,12 +24,11 @@ export default function BookForm() {
 
                     <input type="submit" value="Rechercher" className='border-2 border-black rounded-md px-2'/>
                 </form>
-
             </div>    
         </div>
 
         <div className='result'>
-            {BooksData.slice(0,20)
+            {booksData.slice(0,20)
             .sort((a,b)=> {
                 return a.name - b.name
             })

@@ -124,7 +124,7 @@ module.exports.likeBook = async (req, res) => {
       {
         $addToSet: { likedBy: req.params.id },
       },
-      { news: true },
+      { new: true },
       (err, docs) => {
         if (!err) res.send(docs);
         return res.status(400).send(err);

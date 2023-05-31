@@ -21,7 +21,7 @@ export default function UserList() {
     ? window.localStorage.books.split(",")
     : []
 
-    for (let i = 0; i <booksId.length; i++) {
+    for (let i = 0; i < booksId.length; i++) {
       dispatch(getAllBooks(booksId[i]).then((res) => 
       setListData((listData) => [...listData, res.data])))
     }
