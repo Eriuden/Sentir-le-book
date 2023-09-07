@@ -37,7 +37,7 @@ export const EDIT_COMMENT = "EDIT_COMMENT"
 export const getAllBooks= () => {
   return (dispatch) => {
     return axios
-      .get(`${process.env.REACT_APP_API_URL}api/books`)
+      .get(`${process.env.API_URL}api/books`)
       .then((res) => {
         dispatch({ type: GET_ALL_BOOKS, payload: res.data });
       })
@@ -49,7 +49,7 @@ export const getBook = () => {
   return (dispatch) => {
     return axios
 
-      .get(`${process.env.REACT_APP_API_URL}api/books/:id`)
+      .get(`${process.env.API_URL}api/books/:id`)
       .then((res) => {
         dispatch({ type: GET_BOOK, payload: res.data });
       })
@@ -60,7 +60,7 @@ export const getBook = () => {
 export const addBook= (data) => {
   return (dispatch) => {
     return axios
-      .post(`${process.env.REACT_APP_API_URL}api/books/`, data)
+      .post(`${process.env.API_URL}api/books/`, data)
       .then((res) => {
         if (res.data.errors) {
           dispatch({ type: GET_BOOK_ERRORS, payload: res.data.errors });
@@ -82,7 +82,7 @@ export const updateBook = (
   return (dispatch) => {
     return axios({
       method: "put",
-      url: `${process.env.REACT_APP_API_URL}api/books/${bookId}`,
+      url: `${process.env.API_URL}api/books/${bookId}`,
       data: { description },
     })
       .then((res) => {
@@ -107,7 +107,7 @@ export const deleteBook = (
   return (dispatch) => {
     return axios({
       method: "delete",
-      url: `${process.env.REACT_APP_API_URL}api/books/${bookId}`,
+      url: `${process.env.API_URL}api/books/${bookId}`,
       data: {  name, author, editor, yearOfPublication, description },
     })
       .then((res) => {
@@ -121,7 +121,7 @@ export const likeBook = (bookId, userId) => {
     return (dispatch) => {
         return axios({
             method: 'patch',
-            url:`${process.env.REACT_APP_API_URL}/api/books/like-book/` + bookId,
+            url:`${process.env.API_URL}/api/books/like-book/` + bookId,
             data: { id: userId }
         })
         .then((res) => {
@@ -135,7 +135,7 @@ export const unlikeBook = (bookId, userId) => {
     return(dispatch) => {
         return axios({
             method:'patch',
-            url: `${process.env.REACT_APP_API_URL}/api/books/unlike-book/` + bookId,
+            url: `${process.env.API_URL}/api/books/unlike-book/` + bookId,
             data: { id: userId}
         })
         .then((res) => {
@@ -149,7 +149,7 @@ export const addComment = (bookId, commenterId, text, commenterName) => {
     return (dispatch) => {
         return axios({
             method: 'patch',
-            url: `${process.env.REACT_APP_API_URL}api/books/comment-book/${bookId}`,
+            url: `${process.env.API_URL}api/books/comment-book/${bookId}`,
             data:{commenterId, text, commenterName},
         })
         .then((res) => {
@@ -163,7 +163,7 @@ export const editComment = (bookId, commentId, text) => {
     return (dispatch) => {
         return axios({
             method: 'patch',
-            url: `${process.env.REACT_APP_API_URL}api/books/edit-comment-book/${bookId}`,
+            url: `${process.env.API_URL}api/books/edit-comment-book/${bookId}`,
             data:{commentId, text},
         })
         .then((res) => {
@@ -177,7 +177,7 @@ export const deleteComment = (bookId, commentId) => {
     return (dispatch) => {
         return axios({
             method: 'patch',
-            url: `${process.env.REACT_APP_API_URL}api/books/delete-comment-book/${bookId}`,
+            url: `${process.env.API_URL}api/books/delete-comment-book/${bookId}`,
             data:{commentId},
         })
         .then((res) => {
